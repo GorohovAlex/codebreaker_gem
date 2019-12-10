@@ -1,15 +1,17 @@
 require 'codebreaker_gem/version'
+require_relative 'codebreaker_gem/config.rb'
 require_relative 'codebreaker_gem/difficulty.rb'
 require_relative 'codebreaker_gem/game_stage.rb'
 require_relative 'codebreaker_gem/validator.rb'
 require_relative 'codebreaker_gem/base_class.rb'
+require_relative 'codebreaker_gem/user.rb'
 
 module Codebreaker
   class CodebreakerGem < BaseClass
     include Validator
 
     attr_reader :user_code, :difficulty, :game_stage, :difficulty_change
-    attr_accessor :username
+    attr_accessor :user
 
     VALIDE_CODE_LENGTH = 4
     VALIDE_CODE_NUMBERS = (1..6).freeze
@@ -21,7 +23,9 @@ module Codebreaker
     end
 
     def validate
+      @errors.clear
       @errors << 'error_username_length' unless validate_length_range?(@username, VALIDE_CODE_NUMBERS)
+      @errors << 'error_username_length' unless validate_code_range?(@username, VALIDE_CODE_NUMBERS)
     end
 
     def init_difficulty
