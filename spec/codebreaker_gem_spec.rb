@@ -1,13 +1,30 @@
-module CodebreakerGem
-  RSpec.describe 'CodebreakerGem' do
+module Codebreaker
+  RSpec.describe CodebreakerGem do
     before do
       @codebreaker_gem = CodebreakerGem.new
       @codebreaker_gem.difficulty_change = Difficulty.new(name: 'Easy', attempts: 15, hints: 2, level: 0)
     end
 
-    it 'when registration' do
-      @codebreaker_gem.registration('Smile')
-      expect(@codebreaker_gem.username).to eq('Smile')
+    context 'when registration' do
+      it 'with normal username' do
+        @codebreaker_gem.registration('Smile')
+        expect(@codebreaker_gem.username).to eq('Smile')
+      end
+
+      it 'with empty username' do
+        @codebreaker_gem.registration('')
+        expect(@codebreaker_gem.valide?).to eq(false)
+      end
+
+      it 'with long username' do
+        @codebreaker_gem.registration('s' * 21)
+        expect(@codebreaker_gem.valide?).to eq(false)
+      end
+
+      it 'with short username' do
+        @codebreaker_gem.registration('s' * 2)
+        expect(@codebreaker_gem.valide?).to eq(true)
+      end
     end
 
     context 'compare code' do

@@ -1,9 +1,13 @@
 require 'codebreaker_gem/version'
 require_relative 'codebreaker_gem/difficulty.rb'
 require_relative 'codebreaker_gem/game_stage.rb'
+require_relative 'codebreaker_gem/validator.rb'
+require_relative 'codebreaker_gem/base_class.rb'
 
-module CodebreakerGem
-  class CodebreakerGem
+module Codebreaker
+  class CodebreakerGem < BaseClass
+    include Validator
+
     attr_reader :user_code, :difficulty, :game_stage, :difficulty_change
     attr_accessor :username
 
@@ -12,8 +16,12 @@ module CodebreakerGem
 
     def initialize
       @user_code = []
-      @username = ''
+      @errors = []
       init_difficulty
+    end
+
+    def validate
+      @errors << 'error_username_length' unless validate_length_range?(@username, VALIDE_CODE_NUMBERS)
     end
 
     def init_difficulty
@@ -45,7 +53,8 @@ module CodebreakerGem
     end
 
     def registration(username)
-      @username = username
+      @user = User.new(username)
+      { status: @user.valid?, value: @user.username }
     end
 
     def hint_show
@@ -58,7 +67,6 @@ module CodebreakerGem
     private
 
     def compare_codes
-      # puts "Secret code: #{@secret_code.join}"
       crossing_values = @secret_code & @user_code
       crossing_values.each_with_object([]) { |value, cross_result| cross_result << get_cross_value(value) }
                      .flatten
