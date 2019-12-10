@@ -1,3 +1,4 @@
+
 require 'codebreaker_gem/version'
 require_relative 'codebreaker_gem/config.rb'
 require_relative 'codebreaker_gem/difficulty.rb'
