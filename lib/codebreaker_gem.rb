@@ -40,9 +40,9 @@ module Codebreaker
       @user_code_positions = get_code_positions(@user_code)
     end
 
-    def difficulty_change=(difficulty_change)
-      @difficulty_change = difficulty_change
-      generate_hints
+    def difficulty_change=(difficulty)
+      @difficulty_change = @difficulty.detect { |value| value.name == difficulty }
+      generate_hints unless @difficulty_change.nil?
     end
 
     def game_start
