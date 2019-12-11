@@ -1,11 +1,19 @@
 module Codebreaker
   RSpec.describe CodebreakerGem do
-    before do
-      @codebreaker_gem = CodebreakerGem.new
-      @codebreaker_gem.difficulty_change = Difficulty.new(name: 'Easy', attempts: 15, hints: 2, level: 0)
+    let(:codebreaker_gem) { CodebreakerGem.new }
+
+    context 'when change difficulty' do
+      it 'set difficulty' do
+      codebreaker_gem.difficulty_change = 'Easy'
+      expect(codebreaker_gem.difficulty_change.name).to eq('Easy')
+      end
     end
 
     context 'compare code' do
+      before do
+        codebreaker_gem.difficulty_change = 'Easy'
+      end
+
       it 'verificate code' do
         [
           [[6, 5, 4, 1], [6, 5, 4, 1], [true, true, true, true]],
@@ -20,11 +28,11 @@ module Codebreaker
           [[1, 2, 3, 4], [4, 2, 5, 5], [true, false]], [[1, 2, 3, 4], [5, 6, 3, 5], [true]],
           [[1, 2, 3, 4], [6, 6, 6, 6], []], [[1, 2, 3, 4], [2, 5, 5, 2], [false]]
         ].each do |item|
-          allow(@codebreaker_gem).to receive(:generate_number) { item[0] }
-          @codebreaker_gem.game_start
-          @codebreaker_gem.user_code = item[1]
-          @codebreaker_gem.game_step
-          expect(@codebreaker_gem.game_stage.compare_result).to eq(item[2])
+          allow(codebreaker_gem).to receive(:generate_number) { item[0] }
+          codebreaker_gem.game_start
+          codebreaker_gem.user_code = item[1]
+          codebreaker_gem.game_step
+          expect(codebreaker_gem.game_stage.compare_result).to eq(item[2])
         end
       end
     end

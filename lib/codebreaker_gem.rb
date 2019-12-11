@@ -11,22 +11,24 @@ module Codebreaker
   class CodebreakerGem < BaseClass
     include Validator
 
-    attr_reader :user_code, :difficulty, :game_stage, :difficulty_change
+    attr_reader :user_code, :difficulty, :game_stage, :difficulty_change, :errors
     attr_accessor :user
 
     VALIDE_CODE_LENGTH = 4
     VALIDE_CODE_NUMBERS = (1..6).freeze
 
+    USERNAME_LENGTH_RANGE = (3..20).freeze
+
     def initialize
       @user_code = []
-      @errors = []
+      @errors = {}
       init_difficulty
     end
 
     def validate
       @errors.clear
-      @errors << 'error_username_length' unless validate_length_range?(@username, VALIDE_CODE_NUMBERS)
-      @errors << 'error_username_length' unless validate_code_range?(@username, VALIDE_CODE_NUMBERS)
+      # @errors << 'error_username_length' unless validate_length_range?(@username, VALIDE_CODE_NUMBERS)
+      # @errors << 'error_username_length' unless validate_code_range?(@username, VALIDE_CODE_NUMBERS)
     end
 
     def init_difficulty
@@ -37,6 +39,8 @@ module Codebreaker
     end
 
     def user_code=(new_user_code)
+      @errors[:user_code] = 'error_code_length' unless validate_length_range?(new_user_code, USERNAME_LENGTH_RANGE)
+
       @user_code = new_user_code
       @user_code_positions = get_code_positions(@user_code)
     end
@@ -120,6 +124,8 @@ module Codebreaker
     end
 
     def get_code_positions(code_array)
+      return if code_array.nil? || code_array.empty?
+
       code_array
         .each_with_object(Hash.new([]))
         .with_index { |(value, code), index| code[value] += [index] }
