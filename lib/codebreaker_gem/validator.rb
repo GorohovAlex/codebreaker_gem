@@ -4,7 +4,9 @@ module Validator
   end
 
   def validate_number_range?(number, range)
-    range.to_a.include?(number.to_i)
+    # return unless validate_number?(number)
+
+    range.to_a.include?(number)
   end
 
   def validate_length_range?(text, range)

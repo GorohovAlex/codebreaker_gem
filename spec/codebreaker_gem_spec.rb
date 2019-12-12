@@ -2,6 +2,43 @@ module Codebreaker
   RSpec.describe CodebreakerGem do
     let(:codebreaker_gem) { CodebreakerGem.new }
 
+    context 'when register user' do
+      it 'valid username' do
+        username_valid = { status: true, value: 'Smile' }
+        username_test = codebreaker_gem.registration('Smile')
+        expect(username_test).to eq(username_valid)
+      end
+
+      it 'not valid username length short' do
+        username_valid = { status: false, value: 'a' * USERNAME_LENGTH_RANGE.min.pred }
+        username_test = codebreaker_gem.registration('a' * USERNAME_LENGTH_RANGE.min.pred)
+        expect(username_test).to eq(username_valid)
+      end
+
+      it 'not valid username length more' do
+        username_valid = { status: false, value: 'a' * USERNAME_LENGTH_RANGE.max.next }
+        username_test = codebreaker_gem.registration('a' * USERNAME_LENGTH_RANGE.max.next)
+        expect(username_test).to eq(username_valid)
+      end
+    end
+
+    context 'when input user_code' do
+      it 'input valid user_code' do
+        codebreaker_gem.user_code = [1, 2, 3, 4]
+        expect(codebreaker_gem.user_code).to eq([1, 2, 3, 4])
+      end
+
+      it 'input not valid user_code length' do
+        codebreaker_gem.user_code = [1, 2, 3]
+        expect(codebreaker_gem.errors[:user_code]).to eq('error_code_length')
+      end
+
+      # it 'input not valid user_code number' do
+      #   codebreaker_gem.user_code = [1, 2, -10, 1]
+      #   expect(codebreaker_gem.errors[:user_code]).to eq('error_code_number')
+      # end
+    end
+
     context 'when change difficulty' do
       it 'set difficulty' do
       codebreaker_gem.difficulty_change = 'Easy'

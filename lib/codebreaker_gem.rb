@@ -1,4 +1,3 @@
-
 require 'codebreaker_gem/version'
 require_relative 'codebreaker_gem/config.rb'
 require_relative 'codebreaker_gem/difficulty.rb'
@@ -26,7 +25,7 @@ module Codebreaker
     end
 
     def validate
-      @errors.clear
+      # @errors.clear
       # @errors << 'error_username_length' unless validate_length_range?(@username, VALIDE_CODE_NUMBERS)
       # @errors << 'error_username_length' unless validate_code_range?(@username, VALIDE_CODE_NUMBERS)
     end
@@ -39,9 +38,19 @@ module Codebreaker
     end
 
     def user_code=(new_user_code)
-      @errors[:user_code] = 'error_code_length' unless validate_length_range?(new_user_code, USERNAME_LENGTH_RANGE)
+    #   unless validate_number?(new_user_code)
+    #     @errors[:user_code] = 'error_code_number'
+    #   end
 
-      @user_code = new_user_code
+      unless validate_length_range?(new_user_code, VALIDE_CODE_LENGTH..VALIDE_CODE_LENGTH)
+        @errors[:user_code] = 'error_code_length'
+      end
+
+      # unless validate_number_range?(new_user_code, VALIDE_CODE_NUMBERS)
+      #   @errors[:user_code] = 'error_code_number'
+      # end
+
+      @user_code = new_user_code.map(&:to_i)
       @user_code_positions = get_code_positions(@user_code)
     end
 
@@ -76,6 +85,7 @@ module Codebreaker
     private
 
     def compare_codes
+      puts "#{@secret_code} & #{@user_code}"
       crossing_values = @secret_code & @user_code
       crossing_values.each_with_object([]) { |value, cross_result| cross_result << get_cross_value(value) }
                      .flatten
