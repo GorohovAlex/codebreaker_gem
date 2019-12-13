@@ -13,21 +13,10 @@ module Codebreaker
     attr_reader :user_code, :difficulty, :game_stage, :difficulty_change, :errors
     attr_accessor :user
 
-    VALIDE_CODE_LENGTH = 4
-    VALIDE_CODE_NUMBERS = (1..6).freeze
-
-    USERNAME_LENGTH_RANGE = (3..20).freeze
-
     def initialize
       @user_code = []
       @errors = {}
       init_difficulty
-    end
-
-    def validate
-      # @errors.clear
-      # @errors << 'error_username_length' unless validate_length_range?(@username, VALIDE_CODE_NUMBERS)
-      # @errors << 'error_username_length' unless validate_code_range?(@username, VALIDE_CODE_NUMBERS)
     end
 
     def init_difficulty
@@ -38,20 +27,30 @@ module Codebreaker
     end
 
     def user_code=(new_user_code)
-    #   unless validate_number?(new_user_code)
-    #     @errors[:user_code] = 'error_code_number'
-    #   end
-
-      unless validate_length_range?(new_user_code, VALIDE_CODE_LENGTH..VALIDE_CODE_LENGTH)
-        @errors[:user_code] = 'error_code_length'
-      end
-
-      # unless validate_number_range?(new_user_code, VALIDE_CODE_NUMBERS)
-      #   @errors[:user_code] = 'error_code_number'
-      # end
-
-      @user_code = new_user_code.map(&:to_i)
+      @user_code = new_user_code
+      valide_user_code?
       @user_code_positions = get_code_positions(@user_code)
+    end
+
+    def valide_user_code?
+      return unless valide_user_code_length?
+      return unless validate_user_code_number_range?
+
+      true
+    end
+
+    def valide_user_code_length?
+      return true if validate_length?(@user_code, CODE_LENGTH..CODE_LENGTH)
+
+      @errors[:user_code] = 'error_user_code_length'
+      false
+    end
+
+    def validate_user_code_number_range?
+      return true if validate_number_range?(@user_code, CODE_NUMBERS)
+
+      @errors[:user_code] = 'error_user_code_number'
+      false
     end
 
     def difficulty_change=(difficulty)
@@ -61,7 +60,7 @@ module Codebreaker
 
     def game_start
       generate_secret_code
-      @game_stage = GameStage.new(VALIDE_CODE_LENGTH, @difficulty_change.attempts)
+      @game_stage = GameStage.new(CODE_LENGTH, @difficulty_change.attempts)
       @game_stage
     end
 
@@ -92,9 +91,9 @@ module Codebreaker
                      .sort_by { |item| item ? 0 : 1 }
     end
 
-    def generate_number(min_value: VALIDE_CODE_NUMBERS.min,
-                        max_value: VALIDE_CODE_NUMBERS.max,
-                        length: VALIDE_CODE_LENGTH)
+    def generate_number(min_value: CODE_NUMBERS.min,
+                        max_value: CODE_NUMBERS.max,
+                        length: CODE_LENGTH)
       Array.new(length) { rand(min_value..max_value) }
     end
 
@@ -136,9 +135,7 @@ module Codebreaker
     def get_code_positions(code_array)
       return if code_array.nil? || code_array.empty?
 
-      code_array
-        .each_with_object(Hash.new([]))
-        .with_index { |(value, code), index| code[value] += [index] }
+      code_array.each_with_object(Hash.new([])).with_index { |(value, code), index| code[value] += [index] }
     end
   end
 end

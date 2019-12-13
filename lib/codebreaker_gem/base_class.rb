@@ -6,9 +6,9 @@ class BaseClass
     @errors.empty?
   end
 
-    private
+  private
 
   def validate
-    raise NoImpementatedError
+    raise NotImplementedError
   end
 end

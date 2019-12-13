@@ -9,6 +9,6 @@ class User < BaseClass
   private
 
   def validate
-    @errors << 'error_name_length' unless validate_length_range?(@username, USERNAME_LENGTH_RANGE)
+    @errors << 'error_name_length' unless validate_length?(@username, USERNAME_LENGTH_RANGE)
   end
 end
