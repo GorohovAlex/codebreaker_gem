@@ -1,4 +1,4 @@
-module Game
+module Codebreaker
   RSpec.describe CodebreakerGem do
     let(:codebreaker_gem) { described_class.new }
 
