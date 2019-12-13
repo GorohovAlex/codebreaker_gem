@@ -1,5 +1,5 @@
 RSpec.describe BaseClass do
-  let(:current_entity) { BaseClass.new }
+  let(:current_entity) { described_class.new }
 
   context 'when validation' do
     it 'base valid?' do

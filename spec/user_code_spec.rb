@@ -1,6 +1,7 @@
 module Codebreaker
   RSpec.describe CodebreakerGem do
-    let(:codebreaker_gem) { CodebreakerGem.new }
+    let(:codebreaker_gem) { described_class.new }
+
     context 'when input user_code' do
       it 'input valid user_code' do
         codebreaker_gem.user_code = [1, 2, 3, 4]

@@ -1,6 +1,6 @@
 module Codebreaker
   RSpec.describe CodebreakerGem do
-    let(:codebreaker_gem) { CodebreakerGem.new }
+    let(:codebreaker_gem) { described_class.new }
 
     context 'when register user' do
       it 'valid username' do

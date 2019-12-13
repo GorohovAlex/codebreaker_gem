@@ -1,22 +1,32 @@
 RSpec.describe User do
   context 'when User.new' do
+    let(:user) { described_class.new('Smile') }
+
     it 'with normal username' do
-      user = User.new('Smile')
       expect(user.username).to eq('Smile')
     end
+  end
+
+  context 'when User.new' do
+    let(:user) { described_class.new('') }
 
     it 'with empty username' do
-      user = User.new('')
       expect(user.valid?).to eq(false)
     end
+  end
+
+  context 'when User.new' do
+    let(:user) { described_class.new('s' * USERNAME_LENGTH_RANGE.max.next) }
 
     it 'with long username' do
-      user = User.new('s' * USERNAME_LENGTH_RANGE.max.next)
       expect(user.valid?).to eq(false)
     end
+  end
+
+  context 'when User.new' do
+    let(:user) { described_class.new('s' * USERNAME_LENGTH_RANGE.min.pred) }
 
     it 'with short username' do
-      user = User.new('s' * USERNAME_LENGTH_RANGE.min.pred)
       expect(user.valid?).to eq(false)
     end
   end

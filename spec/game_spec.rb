@@ -1,22 +1,24 @@
 module Codebreaker
   RSpec.describe CodebreakerGem do
-    let(:codebreaker_gem) { CodebreakerGem.new }
-    context 'compare code' do
+    let(:codebreaker_gem) { described_class.new }
+
+    context 'when compare code' do
       before { codebreaker_gem.difficulty_change = 'Easy' }
-      it 'verificate code' do
-        [
-          [[6, 5, 4, 1], [6, 5, 4, 1], [true, true, true, true]],
-          [[1, 2, 2, 1], [2, 1, 1, 2], [false, false, false, false]],
-          [[6, 2, 3, 5], [2, 3, 6, 5], [true, false, false, false]],
-          [[1, 2, 3, 4], [4, 3, 2, 1], [false, false, false, false]],
-          [[1, 2, 3, 4], [1, 2, 3, 5], [true, true, true]], [[1, 2, 3, 4], [5, 4, 3, 1], [true, false, false]],
-          [[1, 2, 3, 4], [1, 5, 2, 4], [true, true, false]], [[1, 2, 3, 4], [4, 3, 2, 6], [false, false, false]],
-          [[1, 2, 3, 4], [3, 5, 2, 5], [false, false]], [[1, 2, 3, 4], [5, 6, 1, 2], [false, false]],
-          [[5, 5, 6, 6], [5, 6, 0, 0], [true, false]], [[1, 2, 3, 4], [6, 2, 5, 4], [true, true]],
-          [[1, 2, 3, 1], [1, 1, 1, 1], [true, true]], [[1, 1, 1, 5], [1, 2, 3, 1], [true, false]],
-          [[1, 2, 3, 4], [4, 2, 5, 5], [true, false]], [[1, 2, 3, 4], [5, 6, 3, 5], [true]],
-          [[1, 2, 3, 4], [6, 6, 6, 6], []], [[1, 2, 3, 4], [2, 5, 5, 2], [false]]
-        ].each do |item|
+
+      [
+        [[6, 5, 4, 1], [6, 5, 4, 1], [true, true, true, true]],
+        [[1, 2, 2, 1], [2, 1, 1, 2], [false, false, false, false]],
+        [[6, 2, 3, 5], [2, 3, 6, 5], [true, false, false, false]],
+        [[1, 2, 3, 4], [4, 3, 2, 1], [false, false, false, false]],
+        [[1, 2, 3, 4], [1, 2, 3, 5], [true, true, true]], [[1, 2, 3, 4], [5, 4, 3, 1], [true, false, false]],
+        [[1, 2, 3, 4], [1, 5, 2, 4], [true, true, false]], [[1, 2, 3, 4], [4, 3, 2, 6], [false, false, false]],
+        [[1, 2, 3, 4], [3, 5, 2, 5], [false, false]], [[1, 2, 3, 4], [5, 6, 1, 2], [false, false]],
+        [[5, 5, 6, 6], [5, 6, 0, 0], [true, false]], [[1, 2, 3, 4], [6, 2, 5, 4], [true, true]],
+        [[1, 2, 3, 1], [1, 1, 1, 1], [true, true]], [[1, 1, 1, 5], [1, 2, 3, 1], [true, false]],
+        [[1, 2, 3, 4], [4, 2, 5, 5], [true, false]], [[1, 2, 3, 4], [5, 6, 3, 5], [true]],
+        [[1, 2, 3, 4], [6, 6, 6, 6], []], [[1, 2, 3, 4], [2, 5, 5, 2], [false]]
+      ].each do |item|
+        it 'verificate code' do
           allow(codebreaker_gem).to receive(:generate_number) { item[0] }
           codebreaker_gem.game_start
           codebreaker_gem.user_code = item[1]
