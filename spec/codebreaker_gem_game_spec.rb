@@ -24,12 +24,16 @@ module Codebreaker
         { user_code: [1, 2, 3, 4], secret_code: [6, 6, 6, 6], result: [] },
         { user_code: [1, 2, 3, 4], secret_code: [2, 5, 5, 2], result: [false] }
       ].each do |item|
+        user_code = item[:user_code]
+        secret_code = item[:secret_code]
+        expect_text = "responds with %s for user_code #{user_code.join} and secret_code #{secret_code.join}"
+
         it 'verificate code' do
-          allow(codebreaker_gem).to receive(:generate_number) { item[:secret_code] }
+          allow(codebreaker_gem).to receive(:generate_number) { secret_code }
           codebreaker_gem.game_start
-          codebreaker_gem.user_code = item[:user_code]
-          codebreaker_gem.game_step
-          expect(codebreaker_gem.game_stage.compare_result).to eq(item[:result])
+          codebreaker_gem.user_code = user_code
+          game_stage = codebreaker_gem.game_step
+          expect(expect_text % game_stage.compare_result.join(', ')).to eq(expect_text % item[:result].join(', '))
         end
       end
     end
