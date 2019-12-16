@@ -1,5 +1,5 @@
 class BaseClass
-  include Validator
+  include CodebreakerGem::Validator
 
   def valid?
     validate

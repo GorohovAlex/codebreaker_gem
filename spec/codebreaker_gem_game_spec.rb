@@ -6,24 +6,30 @@ module Codebreaker
       before { codebreaker_gem.difficulty_change = 'Easy' }
 
       [
-        [[6, 5, 4, 1], [6, 5, 4, 1], [true, true, true, true]],
-        [[1, 2, 2, 1], [2, 1, 1, 2], [false, false, false, false]],
-        [[6, 2, 3, 5], [2, 3, 6, 5], [true, false, false, false]],
-        [[1, 2, 3, 4], [4, 3, 2, 1], [false, false, false, false]],
-        [[1, 2, 3, 4], [1, 2, 3, 5], [true, true, true]], [[1, 2, 3, 4], [5, 4, 3, 1], [true, false, false]],
-        [[1, 2, 3, 4], [1, 5, 2, 4], [true, true, false]], [[1, 2, 3, 4], [4, 3, 2, 6], [false, false, false]],
-        [[1, 2, 3, 4], [3, 5, 2, 5], [false, false]], [[1, 2, 3, 4], [5, 6, 1, 2], [false, false]],
-        [[5, 5, 6, 6], [5, 6, 0, 0], [true, false]], [[1, 2, 3, 4], [6, 2, 5, 4], [true, true]],
-        [[1, 2, 3, 1], [1, 1, 1, 1], [true, true]], [[1, 1, 1, 5], [1, 2, 3, 1], [true, false]],
-        [[1, 2, 3, 4], [4, 2, 5, 5], [true, false]], [[1, 2, 3, 4], [5, 6, 3, 5], [true]],
-        [[1, 2, 3, 4], [6, 6, 6, 6], []], [[1, 2, 3, 4], [2, 5, 5, 2], [false]]
+        { user_code: [6, 5, 4, 1], secret_code: [6, 5, 4, 1], result: [true, true, true, true] },
+        { user_code: [1, 2, 2, 1], secret_code: [2, 1, 1, 2], result: [false, false, false, false] },
+        { user_code: [6, 2, 3, 5], secret_code: [2, 3, 6, 5], result: [true, false, false, false] },
+        { user_code: [1, 2, 3, 4], secret_code: [4, 3, 2, 1], result: [false, false, false, false] },
+        { user_code: [1, 2, 3, 4], secret_code: [1, 2, 3, 5], result: [true, true, true] },
+        { user_code: [1, 2, 3, 4], secret_code: [5, 4, 3, 1], result: [true, false, false] },
+        { user_code: [1, 2, 3, 4], secret_code: [4, 3, 2, 6], result: [false, false, false] },
+        { user_code: [1, 2, 3, 4], secret_code: [3, 5, 2, 5], result: [false, false] },
+        { user_code: [1, 2, 3, 4], secret_code: [5, 6, 1, 2], result: [false, false] },
+        { user_code: [5, 5, 6, 6], secret_code: [5, 6, 0, 0], result: [true, false] },
+        { user_code: [1, 2, 3, 4], secret_code: [6, 2, 5, 4], result: [true, true] },
+        { user_code: [1, 2, 3, 1], secret_code: [1, 1, 1, 1], result: [true, true] },
+        { user_code: [1, 1, 1, 5], secret_code: [1, 2, 3, 1], result: [true, false] },
+        { user_code: [1, 2, 3, 4], secret_code: [4, 2, 5, 5], result: [true, false] },
+        { user_code: [1, 2, 3, 4], secret_code: [5, 6, 3, 5], result: [true] },
+        { user_code: [1, 2, 3, 4], secret_code: [6, 6, 6, 6], result: [] },
+        { user_code: [1, 2, 3, 4], secret_code: [2, 5, 5, 2], result: [false] }
       ].each do |item|
         it 'verificate code' do
-          allow(codebreaker_gem).to receive(:generate_number) { item[0] }
+          allow(codebreaker_gem).to receive(:generate_number) { item[:secret_code] }
           codebreaker_gem.game_start
-          codebreaker_gem.user_code = item[1]
+          codebreaker_gem.user_code = item[:user_code]
           codebreaker_gem.game_step
-          expect(codebreaker_gem.game_stage.compare_result).to eq(item[2])
+          expect(codebreaker_gem.game_stage.compare_result).to eq(item[:result])
         end
       end
     end

@@ -9,3 +9,5 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   EnforcedStyle: never
   
+Metrics/BlockLength:
+  Max: 35

@@ -5,10 +5,11 @@ require_relative 'codebreaker_gem/game_stage.rb'
 require_relative 'codebreaker_gem/validator.rb'
 require_relative 'codebreaker_gem/base_class.rb'
 require_relative 'codebreaker_gem/user.rb'
+require_relative 'codebreaker_gem/init_difficulties.rb'
 
 module Codebreaker
   class CodebreakerGem < BaseClass
-    include Validator
+    include InitDifficulties
 
     attr_reader :user_code, :difficulty, :game_stage, :difficulty_change, :errors
     attr_accessor :user
@@ -16,30 +17,23 @@ module Codebreaker
     def initialize
       @user_code = []
       @errors = {}
-      init_difficulty
-    end
-
-    def init_difficulty
-      @difficulty = []
-      @difficulty << Difficulty.new(name: 'Easy', attempts: 15, hints: 2, level: 0)
-      @difficulty << Difficulty.new(name: 'Medium', attempts: 10, hints: 1, level: 1)
-      @difficulty << Difficulty.new(name: 'Hell', attempts: 5, hints: 1, level: 2)
+      @difficulty = init_difficulties
     end
 
     def user_code=(new_user_code)
       @user_code = new_user_code
-      valide_user_code?
+      user_code_valid?
       @user_code_positions = get_code_positions(@user_code)
     end
 
-    def valide_user_code?
-      return unless valide_user_code_length?
+    def user_code_valid?
+      return unless user_code_valid_length?
       return unless validate_user_code_number_range?
 
       true
     end
 
-    def valide_user_code_length?
+    def user_code_valid_length?
       return true if validate_length?(@user_code, CODE_LENGTH..CODE_LENGTH)
 
       @errors[:user_code] = 'error_user_code_length'
@@ -84,7 +78,6 @@ module Codebreaker
     private
 
     def compare_codes
-      puts "#{@secret_code} & #{@user_code}"
       crossing_values = @secret_code & @user_code
       crossing_values.each_with_object([]) { |value, cross_result| cross_result << get_cross_value(value) }
                      .flatten

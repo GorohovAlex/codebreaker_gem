@@ -1,4 +1,6 @@
 class User < BaseClass
+  USERNAME_LENGTH_RANGE = (3..20).freeze
+
   attr_reader :username
 
   def initialize(username_new)

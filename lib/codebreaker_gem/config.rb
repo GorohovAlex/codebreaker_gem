@@ -1,4 +1,2 @@
-USERNAME_LENGTH_RANGE = (3..20).freeze
-
 CODE_LENGTH = 4
 CODE_NUMBERS = ('0'..'6').freeze
