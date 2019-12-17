@@ -1,14 +1,16 @@
-class BaseClass
-  include CodebreakerGem::Validator
+module CodebreakerGem
+  class BaseClass
+    include CodebreakerGem::Validator
 
-  def valid?
-    validate
-    @errors.empty?
-  end
+    def valid?
+      validate
+      @errors.empty?
+    end
 
-  private
+    private
 
-  def validate
-    raise NotImplementedError
+    def validate
+      raise NotImplementedError
+    end
   end
 end

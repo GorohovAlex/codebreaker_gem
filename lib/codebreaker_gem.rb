@@ -9,7 +9,7 @@ require_relative 'codebreaker_gem/user.rb'
 require_relative 'codebreaker_gem/init_difficulties.rb'
 
 module Codebreaker
-  class CodebreakerGem < BaseClass
+  class CodebreakerGem < CodebreakerGem::BaseClass
     include InitDifficulties
 
     CODE_LENGTH = 4

@@ -1,4 +1,4 @@
-class User < BaseClass
+class User < CodebreakerGem::BaseClass
   USERNAME_LENGTH_RANGE = (3..20).freeze
 
   attr_reader :username
