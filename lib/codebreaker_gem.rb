@@ -92,7 +92,7 @@ module Codebreaker
     end
 
     def generate_number(min_value: CODE_NUMBERS.min, max_value: CODE_NUMBERS.max, length: CODE_LENGTH)
-      Array.new(length) { rand(min_value.to_i..max_value.to_i) }
+      Array.new(length) { rand(min_value.to_i..max_value.to_i).to_s }
     end
 
     def generate_secret_code
