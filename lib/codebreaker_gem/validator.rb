@@ -1,7 +1,7 @@
 module CodebreakerGem
   module Validator
     def validate_number_range?(number, range)
-      range.to_a.include?(number)
+      (number.join.chars - range.to_a) == []
     end
 
     def validate_length?(text, range)

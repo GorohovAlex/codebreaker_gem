@@ -1,5 +1,6 @@
 require 'codebreaker_gem/version'
-require_relative 'codebreaker_gem/config.rb'
+require 'pry'
+
 require_relative 'codebreaker_gem/difficulty.rb'
 require_relative 'codebreaker_gem/game_stage.rb'
 require_relative 'codebreaker_gem/validator.rb'
@@ -10,6 +11,9 @@ require_relative 'codebreaker_gem/init_difficulties.rb'
 module Codebreaker
   class CodebreakerGem < BaseClass
     include InitDifficulties
+
+    CODE_LENGTH = 4
+    CODE_NUMBERS = ('0'..'6').freeze
 
     attr_reader :user_code, :difficulty, :game_stage, :difficulty_change, :errors
     attr_accessor :user
@@ -58,9 +62,12 @@ module Codebreaker
       @game_stage
     end
 
-    def game_step
+    def game_step(user_code_new)
+      self.user_code = user_code_new
+      return unless user_code_valid?
+
       @game_stage.step(compare_codes)
-      @game_stage
+      @game_stage.compare_result
     end
 
     def registration(username)
@@ -84,10 +91,8 @@ module Codebreaker
                      .sort_by { |item| item ? 0 : 1 }
     end
 
-    def generate_number(min_value: CODE_NUMBERS.min,
-                        max_value: CODE_NUMBERS.max,
-                        length: CODE_LENGTH)
-      Array.new(length) { rand(min_value..max_value) }
+    def generate_number(min_value: CODE_NUMBERS.min, max_value: CODE_NUMBERS.max, length: CODE_LENGTH)
+      Array.new(length) { rand(min_value.to_i..max_value.to_i) }
     end
 
     def generate_secret_code
