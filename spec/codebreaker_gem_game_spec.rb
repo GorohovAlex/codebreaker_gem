@@ -26,8 +26,7 @@ module Codebreaker
       ].each do |item|
         expect_text = "responds #{item[:result]} -> [%s] for user_code #{item[:user_code].join} "\
                       "and secret_code #{item[:secret_code].join}"
-
-        it 'verificate code' do
+        it expect_text do
           allow(codebreaker_gem).to receive(:generate_number) { item[:secret_code] }
           codebreaker_gem.game_start
           compare_result = codebreaker_gem.game_step(item[:user_code])
