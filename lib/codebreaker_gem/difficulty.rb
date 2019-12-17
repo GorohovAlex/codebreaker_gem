@@ -1,4 +1,4 @@
-module CodebreakerGem
+module Codebreaker
   class Difficulty
     attr_reader :name, :attempts, :hints
 

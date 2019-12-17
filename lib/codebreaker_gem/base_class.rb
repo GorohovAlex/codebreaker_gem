@@ -1,6 +1,6 @@
-module CodebreakerGem
+# module Codebreaker
   class BaseClass
-    include CodebreakerGem::Validator
+    include Validator
 
     def valid?
       validate
@@ -13,4 +13,4 @@ module CodebreakerGem
       raise NotImplementedError
     end
   end
-end
+# end

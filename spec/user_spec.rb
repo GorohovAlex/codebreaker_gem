@@ -1,3 +1,4 @@
+module Codebreaker
 RSpec.describe User do
   context 'when User.new' do
     let(:user) { described_class.new('Smile') }
@@ -30,4 +31,5 @@ RSpec.describe User do
       expect(user.valid?).to eq(false)
     end
   end
+end
 end
