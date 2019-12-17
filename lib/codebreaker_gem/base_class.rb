@@ -1,4 +1,4 @@
-# module Codebreaker
+module Codebreaker
   class BaseClass
     include Validator
 
@@ -13,4 +13,4 @@
       raise NotImplementedError
     end
   end
-# end
+end
