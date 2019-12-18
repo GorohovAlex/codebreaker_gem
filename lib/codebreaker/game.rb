@@ -3,7 +3,7 @@ module Codebreaker
     include InitDifficulties
 
     CODE_LENGTH = 4
-    CODE_NUMBERS = ('0'..'6').freeze
+    CODE_NUMBERS = ('1'..'6').freeze
 
     attr_reader :user_code, :difficulty, :game_stage, :difficulty_change, :errors
     attr_accessor :user

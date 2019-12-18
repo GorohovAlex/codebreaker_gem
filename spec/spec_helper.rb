@@ -5,7 +5,7 @@ SimpleCov.start do
   add_filter '/spec/'
 end
 
-require_relative '../lib/codebreaker_gem.rb'
+require_relative '../lib/codebreaker.rb'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
