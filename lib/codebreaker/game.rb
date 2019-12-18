@@ -43,13 +43,12 @@ module Codebreaker
 
     def difficulty_change=(difficulty)
       @difficulty_change = @difficulty.detect { |value| value.name == difficulty }
-      generate_hints unless @difficulty_change.nil?
     end
 
     def game_start
       generate_secret_code
+      generate_hints unless @difficulty_change.nil?
       @game_stage = GameStage.new(CODE_LENGTH, @difficulty_change.attempts)
-      @game_stage
     end
 
     def game_step(user_code_new)
@@ -74,6 +73,12 @@ module Codebreaker
 
     private
 
+    def difficulty_valid?
+      return true unless @difficulty_change.nil? || @difficulty_change.empty?
+      @errors[:difficulty] = 'difficulty_change_error'
+      false
+    end
+
     def compare_codes
       crossing_values = @secret_code & @user_code
       crossing_values.each_with_object([]) { |value, cross_result| cross_result << get_cross_value(value) }
@@ -81,12 +86,8 @@ module Codebreaker
                      .sort_by { |item| item ? 0 : 1 }
     end
 
-    def generate_number(min_value: CODE_NUMBERS.min, max_value: CODE_NUMBERS.max, length: CODE_LENGTH)
-      Array.new(length) { rand(min_value.to_i..max_value.to_i).to_s }
-    end
-
     def generate_secret_code
-      @secret_code = generate_number
+      @secret_code = Array.new(CODE_LENGTH) { CODE_NUMBERS.to_a.sample }
       @secret_code_positions = get_code_positions(@secret_code)
       generate_hints
     end
@@ -124,6 +125,11 @@ module Codebreaker
       return if code_array.nil? || code_array.empty?
 
       code_array.each_with_object(Hash.new([])).with_index { |(value, code), index| code[value] += [index] }
+    end
+
+    def validate?
+      @errors = {}
+      difficulty_valid?
     end
   end
 end
