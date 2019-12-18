@@ -10,12 +10,9 @@ module Codebreaker
 
     def initialize
       @errors = {}
-
       @statistic = Statistic.new
-
       @difficulty = init_difficulties
     end
-
 
     def user_code_valid_length?(user_code)
       return true if validate_length?(user_code, CODE_LENGTH..CODE_LENGTH)
@@ -59,6 +56,11 @@ module Codebreaker
 
       @game_stage.hint_used += 1
       @hint_code.shift
+    end
+
+    def statistic_save
+      @statistic.statistic_add_item(name: user.username, difficulty: difficulty_change, game_stage: game_stage)
+      @statistic.statistic_save
     end
 
     private

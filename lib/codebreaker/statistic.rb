@@ -3,6 +3,7 @@ module Codebreaker
     include YamlFile
 
     STAT_HEADER_LIST = %w[rating name difficulty attempts_total attempts_used hints_total hints_used].freeze
+    STAT_FILE_PATH = '/statistic.yml'.freeze
 
     attr_reader :statistic, :headings
     def initialize
