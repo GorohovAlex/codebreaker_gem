@@ -5,37 +5,24 @@ module Codebreaker
     CODE_LENGTH = 4
     CODE_NUMBERS = ('1'..'6').freeze
 
-    attr_reader :user_code, :difficulty, :game_stage, :difficulty_change, :errors
+    attr_reader :difficulty, :game_stage, :difficulty_change, :errors
     attr_accessor :user
 
     def initialize
-      @user_code = []
       @errors = {}
       @difficulty = init_difficulties
     end
 
-    def user_code=(new_user_code)
-      @user_code = new_user_code
-      user_code_valid?
-      @user_code_positions = get_code_positions(@user_code)
-    end
 
-    def user_code_valid?
-      return unless user_code_valid_length?
-      return unless validate_user_code_number_range?
-
-      true
-    end
-
-    def user_code_valid_length?
-      return true if validate_length?(@user_code, CODE_LENGTH..CODE_LENGTH)
+    def user_code_valid_length?(user_code)
+      return true if validate_length?(user_code, CODE_LENGTH..CODE_LENGTH)
 
       @errors[:user_code] = 'error_user_code_length'
       false
     end
 
-    def validate_user_code_number_range?
-      return true if validate_number_range?(@user_code, CODE_NUMBERS)
+    def validate_user_code_number_range?(user_code)
+      return true if validate_number_range?(user_code, CODE_NUMBERS)
 
       @errors[:user_code] = 'error_user_code_number'
       false
@@ -51,11 +38,11 @@ module Codebreaker
       @game_stage = GameStage.new(CODE_LENGTH, @difficulty_change.attempts)
     end
 
-    def game_step(user_code_new)
-      self.user_code = user_code_new
-      return unless user_code_valid?
+    def game_step(user_code)
+      return unless user_code_valid?(user_code)
 
-      @game_stage.step(compare_codes)
+      @user_code_positions = get_code_positions(user_code)
+      @game_stage.step(compare_codes(user_code))
       @game_stage.compare_result
     end
 
@@ -73,21 +60,33 @@ module Codebreaker
 
     private
 
+    def user_code_valid?(user_code)
+      return unless user_code_valid_length?(user_code)
+      return unless validate_user_code_number_range?(user_code)
+
+      true
+    end
+
     def difficulty_valid?
       return true unless @difficulty_change.nil? || @difficulty_change.empty?
+
       @errors[:difficulty] = 'difficulty_change_error'
       false
     end
 
-    def compare_codes
-      crossing_values = @secret_code & @user_code
+    def compare_codes(user_code)
+      crossing_values = @secret_code & user_code
       crossing_values.each_with_object([]) { |value, cross_result| cross_result << get_cross_value(value) }
                      .flatten
                      .sort_by { |item| item ? 0 : 1 }
     end
 
+    def generate_number
+      Array.new(CODE_LENGTH) { CODE_NUMBERS.to_a.sample }
+    end
+
     def generate_secret_code
-      @secret_code = Array.new(CODE_LENGTH) { CODE_NUMBERS.to_a.sample }
+      @secret_code = generate_number
       @secret_code_positions = get_code_positions(@secret_code)
       generate_hints
     end

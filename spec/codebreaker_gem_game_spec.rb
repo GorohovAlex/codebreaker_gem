@@ -1,9 +1,9 @@
 module Codebreaker
   RSpec.describe CodebreakerGem do
-    let(:codebreaker_gem) { described_class.new }
+    let(:codebreaker) { described_class.new }
 
     context 'when compare code' do
-      before { codebreaker_gem.difficulty_change = 'Easy' }
+      before { codebreaker.difficulty_change = 'Easy' }
 
       [
         { user_code: [6, 5, 4, 1], secret_code: [6, 5, 4, 1], result: [true, true, true, true] },
@@ -27,9 +27,9 @@ module Codebreaker
         expect_text = "responds #{item[:result]} for user_code #{item[:user_code].join} "\
                       "and secret_code #{item[:secret_code].join}"
         it expect_text do
-          allow(codebreaker_gem).to receive(:generate_number) { item[:secret_code] }
-          codebreaker_gem.game_start
-          compare_result = codebreaker_gem.game_step(item[:user_code])
+          allow(codebreaker).to receive(:generate_number) { item[:secret_code] }
+          codebreaker.game_start
+          compare_result = codebreaker.game_step(item[:user_code])
           expect(compare_result).to eq(item[:result])
         end
       end
