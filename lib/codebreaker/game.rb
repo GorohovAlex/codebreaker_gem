@@ -5,11 +5,14 @@ module Codebreaker
     CODE_LENGTH = 4
     CODE_NUMBERS = ('1'..'6').freeze
 
-    attr_reader :difficulty, :game_stage, :difficulty_change, :errors
+    attr_reader :statistic, :difficulty, :game_stage, :difficulty_change, :errors
     attr_accessor :user
 
     def initialize
       @errors = {}
+
+      @statistic = Statistic.new
+
       @difficulty = init_difficulties
     end
 
