@@ -2,6 +2,8 @@ module Codebreaker
   class Statistic
     include YamlFile
 
+    STAT_HEADER_LIST = %w[rating name difficulty attempts_total attempts_used hints_total hints_used].freeze
+
     attr_reader :statistic, :headings
     def initialize
       @headings = STAT_HEADER_LIST
