@@ -5,7 +5,7 @@ module Codebreaker
     let(:game_stage) { GameStage.new(user_code_length: 4, attempts: 10) }
     let(:user) { instance_double('User', username: 'Smile') }
     let(:statistic) { Statistic.new }
-    let(:test_file) { 'tmp/statistic.yml' }
+    let(:test_file) { 'statistic_test.yml' }
 
     context 'when statistic save' do
       before do
