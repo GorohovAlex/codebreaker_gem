@@ -8,9 +8,10 @@ module Codebreaker
     let(:test_file) { 'tmp/test-results/statistic.yml' }
 
     context 'when statistic save' do
+      before { stub_const('Codebreaker::Statistic::STAT_FILE_PATH', test_file) }
+
       it 'success statistic save' do
         codebreaker.instance_variable_set(:@user, user)
-        stub_const('Codebreaker::Statistic::STAT_FILE_PATH', test_file)
         codebreaker.instance_variable_set(:@statistic, statistic)
         codebreaker.instance_variable_set(:@difficulty_change, difficulty_change)
         codebreaker.instance_variable_set(:@game_stage, game_stage)
