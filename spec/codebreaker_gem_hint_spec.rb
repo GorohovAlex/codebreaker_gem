@@ -2,7 +2,7 @@ module Codebreaker
   RSpec.describe CodebreakerGem do
     let(:codebreaker) { described_class.new }
     let(:hints) { [1, 2, 3, 4] }
-    let(:game_stage) { instance_double('GameStage', user_code_length: 4, attempts: 10) }
+    let(:game_stage) { GameStage.new(user_code_length: 4, attempts: 10) }
 
     context 'when get hint' do
       before do

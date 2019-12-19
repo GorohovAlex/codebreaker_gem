@@ -54,11 +54,12 @@ module Codebreaker
     def hint_show
       return if @hint_code.empty?
 
+      @game_stage.hint_used += 1
+
       @hint_code.shift
     end
 
     def statistic_save
-      # binding.pry
       @statistic.statistic_add_item(name: user.username, difficulty: difficulty_change, game_stage: game_stage)
       @statistic.statistic_save
     end
