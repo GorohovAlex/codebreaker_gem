@@ -10,8 +10,12 @@ module Codebreaker
 
       it 'input not valid user_code length' do
         codebreaker.send(:user_code_valid?, [1, 2, 3])
-
         expect(codebreaker.errors[:user_code]).to eq('error_user_code_length')
+      end
+
+      it 'input not valid user_code range' do
+        codebreaker.send(:user_code_valid?, [0, 2, 3, 3])
+        expect(codebreaker.errors[:user_code]).to eq('error_user_code_number')
       end
     end
   end

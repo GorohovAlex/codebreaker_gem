@@ -6,7 +6,7 @@ module Codebreaker
     CODE_NUMBERS = ('1'..'6').freeze
 
     attr_reader :statistic, :difficulty, :game_stage, :difficulty_change, :errors
-    attr_accessor :user
+    attr_accessor :user, :hint_code
 
     def initialize
       @errors = {}
@@ -35,7 +35,7 @@ module Codebreaker
     def game_start
       generate_secret_code
       generate_hints unless @difficulty_change.nil?
-      @game_stage = GameStage.new(CODE_LENGTH, @difficulty_change.attempts)
+      @game_stage = GameStage.new(user_code_length: CODE_LENGTH, attempts: @difficulty_change.attempts)
     end
 
     def game_step(user_code)
@@ -54,7 +54,6 @@ module Codebreaker
     def hint_show
       return if @hint_code.empty?
 
-      @game_stage.hint_used += 1
       @hint_code.shift
     end
 
@@ -82,8 +81,7 @@ module Codebreaker
     def compare_codes(user_code)
       crossing_values = @secret_code & user_code
       crossing_values.each_with_object([]) { |value, cross_result| cross_result << get_cross_value(value) }
-                     .flatten
-                     .sort_by { |item| item ? 0 : 1 }
+                     .flatten.sort_by { |item| item ? 0 : 1 }
     end
 
     def generate_number
