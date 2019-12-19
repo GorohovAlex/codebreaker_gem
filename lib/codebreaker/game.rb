@@ -17,15 +17,13 @@ module Codebreaker
     def user_code_valid_length?(user_code)
       return true if validate_length?(user_code, CODE_LENGTH..CODE_LENGTH)
 
-      @errors[:user_code] = 'error_user_code_length'
-      false
+      false || @errors[:user_code] = 'error_user_code_length'
     end
 
     def validate_user_code_number_range?(user_code)
       return true if validate_number_range?(user_code, CODE_NUMBERS)
 
-      @errors[:user_code] = 'error_user_code_number'
-      false
+      false || @errors[:user_code] = 'error_user_code_number'
     end
 
     def difficulty_change=(difficulty)
@@ -48,14 +46,13 @@ module Codebreaker
 
     def registration(username)
       @user = User.new(username)
-      { status: @user.valid?, value: @user.username }
+      { status: @user.valid?, value: @user.errors.empty? ? @user.username : @user.errors.first }
     end
 
     def hint_show
       return if @hint_code.empty?
 
       @game_stage.hint_used += 1
-
       @hint_code.shift
     end
 

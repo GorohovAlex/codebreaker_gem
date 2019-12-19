@@ -2,7 +2,7 @@ module Codebreaker
   class User < BaseClass
     USERNAME_LENGTH_RANGE = (3..20).freeze
 
-    attr_reader :username
+    attr_reader :username, :errors
 
     def initialize(username_new)
       @username = username_new

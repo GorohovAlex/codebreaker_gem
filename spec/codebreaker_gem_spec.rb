@@ -10,15 +10,13 @@ module Codebreaker
       end
 
       it 'not valid username length short' do
-        username_valid = { status: false, value: 'a' * User::USERNAME_LENGTH_RANGE.min.pred }
         username_test = codebreaker.registration('a' * User::USERNAME_LENGTH_RANGE.min.pred)
-        expect(username_test).to eq(username_valid)
+        expect(username_test[:status]).to eq(false)
       end
 
       it 'not valid username length more' do
-        username_valid = { status: false, value: 'a' * User::USERNAME_LENGTH_RANGE.max.next }
         username_test = codebreaker.registration('a' * User::USERNAME_LENGTH_RANGE.max.next)
-        expect(username_test).to eq(username_valid)
+        expect(username_test[:status]).to eq(false)
       end
     end
 
