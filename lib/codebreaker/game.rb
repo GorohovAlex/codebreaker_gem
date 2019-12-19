@@ -58,6 +58,7 @@ module Codebreaker
     end
 
     def statistic_save
+      # binding.pry
       @statistic.statistic_add_item(name: user.username, difficulty: difficulty_change, game_stage: game_stage)
       @statistic.statistic_save
     end
