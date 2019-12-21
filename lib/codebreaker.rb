@@ -1,5 +1,4 @@
 module Codebreaker
-  # require 'pry'
   require 'codebreaker/version'
   require 'codebreaker/yaml_file.rb'
   require 'codebreaker/validator.rb'
