@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    codebreaker (0.2.2)
+    codebreaker-ga (0.2.2)
 
 GEM
   remote: https://rubygems.org/
@@ -63,7 +63,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 2.0)
-  codebreaker!
+  codebreaker-ga!
   fasterer (~> 0.8.0)
   pry (~> 0.12.2)
   rake (~> 12.3.1)
