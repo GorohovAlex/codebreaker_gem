@@ -45,7 +45,7 @@ module Codebreaker
 
     def registration(username)
       @user = User.new(username)
-      { status: @user.valid?, value: @user.errors.empty? ? @user.username : @user.errors.first }
+      { status: @user.valid?, value: @user.errors.empty? ? @user.username : @user.errors[:user] }
     end
 
     def hint_show
