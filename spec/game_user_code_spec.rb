@@ -1,5 +1,5 @@
 module Codebreaker
-  RSpec.describe CodebreakerGem do
+  RSpec.describe Game do
     let(:codebreaker) { described_class.new }
 
     context 'when input user_code' do

@@ -1,5 +1,5 @@
 module Codebreaker
-  RSpec.describe CodebreakerGem do
+  RSpec.describe Game do
     let(:codebreaker) { described_class.new }
 
     context 'when register user' do
@@ -22,8 +22,8 @@ module Codebreaker
 
     context 'when change difficulty' do
       it 'set difficulty' do
-        codebreaker.difficulty_change = 'Easy'
-        expect(codebreaker.difficulty_change.name).to eq('Easy')
+        codebreaker.difficulty = 'Easy'
+        expect(codebreaker.difficulty.name).to eq('Easy')
       end
     end
   end

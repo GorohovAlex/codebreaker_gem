@@ -1,9 +1,9 @@
 module Codebreaker
-  RSpec.describe CodebreakerGem do
+  RSpec.describe Game do
     let(:codebreaker) { described_class.new }
 
     context 'when compare code' do
-      before { codebreaker.difficulty_change = 'Easy' }
+      before { codebreaker.difficulty = 'Easy' }
 
       [
         { user_code: [6, 5, 4, 1], secret_code: [6, 5, 4, 1], result: [true, true, true, true] },
