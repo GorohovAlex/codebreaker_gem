@@ -1,7 +1,12 @@
 module Codebreaker
   class CompareCodes
+    def initialize(secret_code)
+      @secret_code = secret_code
+      @secret_code_positions = get_code_positions(@secret_code)
+    end
 
-    def compare_codes(match_code)
+    def compare(match_code)
+      @match_code_positions = get_code_positions(match_code)
       crossing_values = @secret_code & match_code
       crossing_values.each_with_object([]) { |value, cross_result| cross_result << get_cross_value(value) }
                      .flatten.sort_by { |item| item ? 0 : 1 }
@@ -12,17 +17,17 @@ module Codebreaker
     end
 
     def guess_position(value)
-      crossing_positions = @user_code_positions[value] & @secret_code_positions[value]
+      crossing_positions = @match_code_positions[value] & @secret_code_positions[value]
       crossing_positions.empty? ? [] : Array.new(crossing_positions.size, true)
     end
 
     def guess_value(value)
-      crossing_positions = @user_code_positions[value] & @secret_code_positions[value]
+      crossing_positions = @match_code_positions[value] & @secret_code_positions[value]
 
-      user_code_positions = crossing_code_position(value, @user_code_positions, crossing_positions)
+      match_code_positions = crossing_code_position(value, @match_code_positions, crossing_positions)
       secret_code_positions = crossing_code_position(value, @secret_code_positions, crossing_positions)
 
-      size_no_cross_code = [secret_code_positions[value].size, user_code_positions[value].size].min
+      size_no_cross_code = [secret_code_positions[value].size, match_code_positions[value].size].min
       crossing_positions.empty? && size_no_cross_code.zero? ? [] : Array.new(size_no_cross_code, false)
     end
 

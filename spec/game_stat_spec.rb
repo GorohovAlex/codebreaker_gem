@@ -2,7 +2,7 @@ module Codebreaker
   RSpec.describe Game do
     let(:codebreaker) { described_class.new }
     let(:difficulty) { Difficulty.new(name: 'Easy', attempts: 15, hints: 3, level: 0) }
-    let(:game_stage) { GameStage.new(user_code_length: 4, attempts: 10) }
+    let(:game_stage) { GameStage.new(match_code_length: 4, attempts: 10) }
     let(:user) { instance_double('User', username: 'Smile') }
     let(:statistic) { Statistic.new }
     let(:test_file) { 'statistic_test.yml' }

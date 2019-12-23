@@ -14,18 +14,16 @@ module Codebreaker
       @difficulties = init_difficulties
     end
 
-    def user_code_valid_length?(user_code)
-      return true if validate_length?(user_code, CODE_LENGTH..CODE_LENGTH)
+    def match_code_valid_length?(match_code)
+      return true if validate_length?(match_code, CODE_LENGTH..CODE_LENGTH)
 
-      @errors[:user_code] = 'error_user_code_length'
-      false
+      (@errors[:match_code] = 'error_match_code_length') && false
     end
 
-    def validate_user_code_number_range?(user_code)
-      return true if validate_number_range?(user_code, CODE_NUMBERS)
+    def validate_match_code_number_range?(match_code)
+      return true if validate_number_range?(match_code, CODE_NUMBERS)
 
-      @errors[:user_code] = 'error_user_code_number'
-      false
+      (@errors[:match_code] = 'error_match_code_number') && false
     end
 
     def difficulty=(difficulty)
@@ -34,15 +32,14 @@ module Codebreaker
 
     def game_start
       generate_secret_code
-      generate_hints unless @difficulty.nil?
-      @game_stage = GameStage.new(user_code_length: CODE_LENGTH, attempts: @difficulty.attempts)
+      generate_hints
+      @game_stage = GameStage.new(match_code_length: CODE_LENGTH, attempts: @difficulty.attempts)
     end
 
     def game_step(match_codes)
-      return unless user_code_valid?(match_codes)
+      return unless match_code_valid?(match_codes)
 
-      @user_code_positions = get_code_positions(match_codes)
-      @game_stage.step(compare_codes(match_codes))
+      @game_stage.step(@compare_codes.compare(match_codes))
       @game_stage.compare_result
     end
 
@@ -65,9 +62,9 @@ module Codebreaker
 
     private
 
-    def user_code_valid?(user_code)
-      return unless user_code_valid_length?(user_code)
-      return unless validate_user_code_number_range?(user_code)
+    def match_code_valid?(match_code)
+      return unless match_code_valid_length?(match_code)
+      return unless validate_match_code_number_range?(match_code)
 
       true
     end
@@ -89,8 +86,7 @@ module Codebreaker
 
     def generate_secret_code
       @secret_code = generate_number
-      @secret_code_positions = get_code_positions(@secret_code)
-      generate_hints
+      @compare_codes = CompareCodes.new(@secret_code)
     end
 
     def validate
