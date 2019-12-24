@@ -28,7 +28,7 @@ module Codebreaker
     end
 
     def difficulty=(difficulty)
-      @difficulty = @difficulties.select { |value| value.name == difficulty }.first
+      @difficulty = @difficulties.detect { |value| value.name == difficulty }
     end
 
     def game_start
