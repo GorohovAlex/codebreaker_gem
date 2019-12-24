@@ -22,7 +22,8 @@ module Codebreaker
         { match_code: [1, 2, 3, 4], secret_code: [4, 2, 5, 5], result: [true, false] },
         { match_code: [1, 2, 3, 4], secret_code: [5, 6, 3, 5], result: [true] },
         { match_code: [1, 2, 3, 4], secret_code: [6, 6, 6, 6], result: [] },
-        { match_code: [1, 2, 3, 4], secret_code: [2, 5, 5, 2], result: [false] }
+        { match_code: [1, 2, 3, 4], secret_code: [2, 5, 5, 2], result: [false] },
+        { match_code: [3, 2, 2, 1], secret_code: [5, 3, 6, 1], result: [true,false] }
       ].each do |item|
         expect_text = "responds #{item[:result]} for match_code #{item[:match_code].join} "\
                       "and secret_code #{item[:secret_code].join}"
