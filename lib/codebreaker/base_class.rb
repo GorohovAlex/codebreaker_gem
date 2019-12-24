@@ -3,6 +3,7 @@ module Codebreaker
     include Validator
 
     def valid?
+      @errors = {}
       validate
       @errors.empty?
     end

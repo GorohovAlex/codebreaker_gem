@@ -5,13 +5,14 @@ module Codebreaker
     CODE_LENGTH = 4
     CODE_NUMBERS = ('1'..'6').freeze
 
-    attr_reader :statistic, :difficulties, :difficulty, :errors #:game_stage
+    attr_reader :statistic, :difficulties, :difficulty, :errors, :game_stage
     attr_accessor :user, :hint_code
 
     def initialize
       @errors = {}
       @statistic = Statistic.new
       @difficulties = init_difficulties
+      @difficulty = nil
     end
 
     def match_code_valid_length?(match_code)
@@ -27,7 +28,7 @@ module Codebreaker
     end
 
     def difficulty=(difficulty)
-      @difficulty = @difficulties.detect { |value| value.name == difficulty }
+      @difficulty = @difficulties.select { |value| value.name == difficulty }.first
     end
 
     def game_start
@@ -70,7 +71,7 @@ module Codebreaker
     end
 
     def difficulty_valid?
-      return true unless @difficulty.nil? || @difficulty.empty?
+      return true unless @difficulty.nil?
 
       @errors[:difficulty] = 'difficulty_change_error'
       false
@@ -90,7 +91,6 @@ module Codebreaker
     end
 
     def validate
-      @errors = {}
       difficulty_valid?
     end
   end
