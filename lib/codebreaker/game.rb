@@ -43,7 +43,11 @@ module Codebreaker
 
     def game_step(match_codes)
       return unless match_code_valid?(match_codes)
-      return unless @game_stage.valide_allow_step?
+
+      unless @game_stage.valide_allow_step?
+        @errors[:game_stage] = 'allow_step_error'
+        return
+      end
 
       @game_stage.step(compare(@secret_code, match_codes))
       @game_stage.compare_result
