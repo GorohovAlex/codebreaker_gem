@@ -1,13 +1,9 @@
 module Codebreaker
-  class CompareCodes
-    def initialize(secret_code)
-      @secret_code = secret_code
-      @secret_code_positions = get_code_positions(@secret_code)
-    end
-
-    def compare(match_code)
+  module CompareCodes
+    def compare(secret_code, match_code)
+      @secret_code_positions = get_code_positions(secret_code)
       @match_code_positions = get_code_positions(match_code)
-      crossing_values = @secret_code & match_code
+      crossing_values = secret_code & match_code
       crossing_values.each_with_object([]) { |value, cross_result| cross_result << get_cross_value(value) }
                      .flatten.sort_by { |item| item ? 0 : 1 }
     end

@@ -1,6 +1,7 @@
 module Codebreaker
   class Game < BaseClass
     include InitDifficulties
+    include CompareCodes
 
     CODE_LENGTH = 4
     CODE_NUMBERS = ('1'..'6').freeze
@@ -18,35 +19,43 @@ module Codebreaker
     def match_code_valid_length?(match_code)
       return true if validate_length?(match_code, CODE_LENGTH..CODE_LENGTH)
 
-      (@errors[:match_code] = 'error_match_code_length') && false
+      @errors[:match_code] = 'error_match_code_length'
+      false
     end
 
     def validate_match_code_number_range?(match_code)
       return true if validate_number_range?(match_code, CODE_NUMBERS)
 
-      (@errors[:match_code] = 'error_match_code_number') && false
+      @errors[:match_code] = 'error_match_code_number'
+      false
     end
 
     def difficulty=(difficulty)
       @difficulty = @difficulties.detect { |value| value.name == difficulty }
+      difficulty_valid?
     end
 
     def game_start
       generate_secret_code
       generate_hints
-      @game_stage = GameStage.new(match_code_length: CODE_LENGTH, attempts: @difficulty.attempts)
+      @game_stage = GameStage.new(attempts: @difficulty.attempts)
     end
 
     def game_step(match_codes)
       return unless match_code_valid?(match_codes)
+      return unless @game_stage.valide_allow_step?
 
-      @game_stage.step(@compare_codes.compare(match_codes))
+      @game_stage.step(compare(@secret_code, match_codes))
       @game_stage.compare_result
     end
 
     def registration(username)
       @user = User.new(username)
-      { status: @user.valid?, value: @user.errors.empty? ? @user.username : @user.errors[:user] }
+      if @user.valid?
+        { status: true, value: @user.username }
+      else
+        { status: false, value: @user.errors[:user] }
+      end
     end
 
     def hint_show
@@ -70,13 +79,6 @@ module Codebreaker
       true
     end
 
-    def difficulty_valid?
-      return true unless @difficulty.nil?
-
-      @errors[:difficulty] = 'difficulty_change_error'
-      false
-    end
-
     def generate_number
       Array.new(CODE_LENGTH) { CODE_NUMBERS.to_a.sample }
     end
@@ -87,11 +89,14 @@ module Codebreaker
 
     def generate_secret_code
       @secret_code = generate_number
-      @compare_codes = CompareCodes.new(@secret_code)
     end
 
-    def validate
-      difficulty_valid?
+    def difficulty_valid?
+      return true unless @difficulty.nil?
+
+      @errors = {}
+      @errors[:difficulty] = 'difficulty_change_error'
+      false
     end
   end
 end
