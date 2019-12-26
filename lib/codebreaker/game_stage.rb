@@ -20,7 +20,7 @@ module Codebreaker
 
     def valide_allow_step?
       return true if @attempts >= @step_number
-      
+
       @errors[:game_stage] = 'allow_step_error'
       false
     end
