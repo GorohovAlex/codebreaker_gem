@@ -1,5 +1,5 @@
 module Codebreaker
-  class GameStage
+  class GameStage < BaseClass
     attr_reader :step_number, :endgame, :attempts, :compare_result, :win
     attr_accessor :hint_used
 
@@ -19,7 +19,10 @@ module Codebreaker
     end
 
     def valide_allow_step?
-      @attempts >= @step_number
+      return true if @attempts >= @step_number
+      
+      @errors[:game_stage] = 'allow_step_error'
+      false
     end
   end
 end
