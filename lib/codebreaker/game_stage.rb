@@ -3,12 +3,12 @@ module Codebreaker
     attr_reader :step_number, :endgame, :attempts, :compare_result, :win
     attr_accessor :hint_used
 
-    def initialize(attempts:)
-      @step_number = 1
-      @endgame = false
+    def initialize(attempts:, compare_result: [], endgame: false, hint_used: 0, step_number: 1)
       @attempts = attempts
-      @compare_result = []
-      @hint_used = 0
+      @compare_result = compare_result
+      @endgame = endgame
+      @hint_used = hint_used
+      @step_number = step_number
     end
 
     def step(compare_result)
