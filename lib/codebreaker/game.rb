@@ -6,8 +6,8 @@ module Codebreaker
     CODE_LENGTH = 4
     CODE_NUMBERS = ('1'..'6').freeze
 
-    attr_reader :statistic, :difficulties, :difficulty, :errors, :game_stage
-    attr_accessor :user, :hint_code
+    attr_reader :statistic, :difficulties, :difficulty, :errors
+    attr_accessor :user, :hint_code, :game_stage, :secret_code
 
     def initialize
       @errors = {}
@@ -70,6 +70,7 @@ module Codebreaker
     end
 
     def statistic_save
+      
       @statistic.statistic_add_item(name: user.username, difficulty: @difficulty, game_stage: @game_stage)
       @statistic.statistic_save
     end
