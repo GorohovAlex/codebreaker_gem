@@ -70,7 +70,6 @@ module Codebreaker
     end
 
     def statistic_save
-      
       @statistic.statistic_add_item(name: user.username, difficulty: @difficulty, game_stage: @game_stage)
       @statistic.statistic_save
     end

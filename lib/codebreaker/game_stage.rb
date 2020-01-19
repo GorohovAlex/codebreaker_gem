@@ -8,12 +8,12 @@ module Codebreaker
       @compare_result = []
       @endgame = false
       @hint_used = 0
-      @step_number = 1
+      @step_number = 0
     end
 
     def step(compare_result)
       @compare_result = compare_result
-      @step_number += 1
+      @step_number = @step_number.next
       @win = @compare_result.length == Game::CODE_LENGTH && @compare_result.all?
       @endgame = true if !valide_allow_step? || @win
     end
