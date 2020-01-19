@@ -18,7 +18,7 @@ module Codebreaker
 
       it 'success statistic save' do
         codebreaker.statistic_save
-        expect(codebreaker.statistic.statistic_get).to eq([[1, 'Smile', 'Easy', 10, 1, 3, 0]])
+        expect(codebreaker.statistic.statistic_get).to eq([[1, 'Smile', 'Easy', 10, 0, 3, 0]])
       end
     end
   end
