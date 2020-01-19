@@ -4,7 +4,7 @@ module Codebreaker
 
     STAT_HEADER_LIST = %w[rating name difficulty attempts_total attempts_used hints_total hints_used date_saved].freeze
     STAT_FILE_PATH = 'statistic.yml'.freeze
-    DATETIME_FORMAT = "%Y.%m.%d - %H:%M:%S".freeze
+    DATETIME_FORMAT = '%Y.%m.%d - %H:%M:%S'.freeze
 
     attr_reader :statistic, :headings, :statistic_items
     def initialize
